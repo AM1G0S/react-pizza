@@ -50,6 +50,10 @@ body {
 		}
 	}
 
+	.cart .content__items {
+		display: block;
+	}
+	
 	&__top {
 		display: flex;
 		align-items: center;
