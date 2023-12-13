@@ -14,7 +14,7 @@ const Home = () => {
 	const category = categoryId > 0 ? `category=${categoryId}` : ''
 	const sortBy = sortType.sortProperty.replace('-', '')
 	const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-
+	
 	useEffect(() => {
 		setIsLoading(true)
 		fetch(`https://65787cc6f08799dc80456b95.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`)
@@ -28,7 +28,7 @@ const Home = () => {
 			.catch((error) => {
 				throw new Error('Произошла ошибка загрузки товаров', error);
 			});
-	}, [categoryId, sortType]);
+	}, [category, categoryId, order, sortBy, sortType]);
 	
 	return (
 		<>
