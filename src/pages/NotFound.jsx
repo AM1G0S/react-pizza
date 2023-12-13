@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
 const NotFound = () => {
