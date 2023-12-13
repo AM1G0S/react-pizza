@@ -15,7 +15,7 @@ body {
 	border-radius: 10px;
 	max-width: 1400px;
 	
-	@media (max-width: 480px) {
+	@media (max-width: 560px) {
 		width: calc(100vw - 50px);
 		margin: 25px auto;
 	}
@@ -36,6 +36,7 @@ body {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: 20px;
+		row-gap: 40px;
 		
 		@media (max-width: 1280px) {
 			grid-template-columns: repeat(3, 1fr);
@@ -47,6 +48,7 @@ body {
 		
 		@media (max-width: 690px) {
 			grid-template-columns: repeat(1, 1fr);
+			row-gap: 20px;
 		}
 	}
 

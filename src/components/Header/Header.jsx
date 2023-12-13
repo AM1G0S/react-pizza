@@ -16,8 +16,7 @@ export const Header = () => {
 					</div>
 				</Link>
 				<div className="header__cart">
-					<Link to={'/basket'}>
-						<a href="/cart.html" className="button button--cart">
+					<Link to={'/basket'} className="button button--cart">
 							<span>520 ₽</span>
 							<div className="button__delimiter"></div>
 							<svg
@@ -50,7 +49,6 @@ export const Header = () => {
 								/>
 							</svg>
 							<span>3</span>
-						</a>
 					</Link>
 				</div>
 			</div>
