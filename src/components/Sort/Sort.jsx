@@ -1,6 +1,10 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { onChangeSortType } from '../../redux/slices/sortSlice'
 
-export const Sort = ({value, onChangeSortType}) => {
+export const Sort = () => {
+	const sortType = useSelector((state) => state.sortSlice.value)
+	const dispatch = useDispatch()
 	const [sortOpen, setSortOpen] = React.useState(false)
 	
 	const sortList = [
@@ -12,7 +16,7 @@ export const Sort = ({value, onChangeSortType}) => {
 		{name: 'алфавиту (ask)', sortProperty: '-title'},
 	]
 	
-return (
+	return (
 	<div>
 		<div className="sort">
 			<div className="sort__label">
@@ -23,7 +27,7 @@ return (
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setSortOpen(!sortOpen)}>{value.name}</span>
+				<span onClick={() => setSortOpen(!sortOpen)}>{sortType.name}</span>
 			</div>
 			
 			{
@@ -32,8 +36,8 @@ return (
 						{sortList.map((obj, index) => (
 							<li
 								key={index}
-								className={value.sortProperty === obj.sortProperty ? 'active' : ''}
-								onClick={() => onChangeSortType(obj)}
+								className={sortType === obj.sortProperty ? 'active' : ''}
+								onClick={() => dispatch(onChangeSortType(obj))}
 							>
 								{obj.name}
 							</li>
