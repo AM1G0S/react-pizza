@@ -5,10 +5,16 @@ import styles from './Search.module.scss'
 
 const Search = () => {
 	const {searchValue, setSearchValue} = React.useContext(SearchContext);
+	const inputRef = React.useRef()
 	
+	const onCleatInput = () => {
+		setSearchValue('')
+		inputRef.current.focus()
+	}
+
 	return (
 		<div className={styles.search}>
-			<input className={styles.input} value={searchValue} onChange={(event) => setSearchValue(event.target.value)}
+			<input className={styles.input} ref={inputRef} value={searchValue} onChange={(event) => setSearchValue(event.target.value)}
 			       type="search" placeholder="Поиск товара"/>
 			<svg className={styles.searchIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px"
 			     height="48px">
@@ -17,7 +23,7 @@ const Search = () => {
 			</svg>
 			{
 				searchValue &&
-				<svg className={styles.closeIcon} onClick={() => setSearchValue('')} xmlns="http://www.w3.org/2000/svg"
+				<svg className={styles.closeIcon} onClick={onCleatInput} xmlns="http://www.w3.org/2000/svg"
 				     viewBox="0 0 72 72" width="64px" height="64px" baseProfile="basic">
 					<path
 						d="M55.828,16.171c1.562,1.562,1.562,4.095,0,5.657l-34,34C21.048,56.609,20.023,57,19,57s-2.048-0.391-2.828-1.171 c-1.562-1.562-1.562-4.095,0-5.657l34-34C51.732,14.61,54.268,14.61,55.828,16.171z"/>
