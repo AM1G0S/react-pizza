@@ -9,8 +9,7 @@ import {Sort} from "../components/Sort/Sort";
 import {Pagination} from "../components/Pagination/Pagination";
 
 const Home = () => {
-	const categoryId = useSelector((state) => state.filter.categoryId)
-	const sortType = useSelector((state) => state.filter.sort)
+	const {categoryId, sort} = useSelector((state) => state.filter)
 	
 	const {searchValue} = React.useContext(SearchContext);
 	const [products, setProducts] = React.useState([]);
@@ -19,8 +18,8 @@ const Home = () => {
 	
 	// переменные для работы с API
 	const categoryVal = categoryId > 0 ? `category=${categoryId}` : "";
-	const sortByVal = sortType.sortProperty.replace("-", "");
-	const orderVal = sortType.sortProperty.includes("-") ? "asc" : "desc";
+	const sortByVal = sort.sortProperty.replace("-", "");
+	const orderVal = sort.sortProperty.includes("-") ? "asc" : "desc";
 	const searchVal = searchValue ? `&search=${searchValue}` : "";
 	
 	useEffect(() => {
@@ -38,7 +37,7 @@ const Home = () => {
 			.catch((error) => {
 				throw new Error(`Произошла ошибка загрузки товаров: \n ${error}`);
 			});
-	}, [categoryId, sortType, searchValue, currentPage, searchVal, sortByVal, orderVal, categoryVal]);
+	}, [categoryId, sort, searchValue, currentPage, searchVal, sortByVal, orderVal, categoryVal]);
 	
 	const pizzaSkeletons = Array.from({length: 4}).map((_, index) => (
 		<PizzaBlockSkeleton key={index}/>
