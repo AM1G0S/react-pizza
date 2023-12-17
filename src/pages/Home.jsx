@@ -1,11 +1,8 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import axios from "axios";
 import qs from 'qs';
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
-import {SearchContext} from "../App";
-import BasketEmptyImg from "../assets/img/empty-cart.png";
 import {Categories} from "../components/Categories/Categories";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {PizzaBlockSkeleton} from "../components/PizzaBlock/Skeleton";
@@ -23,7 +20,7 @@ const Home = () => {
 	const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
 	const {items, status} = useSelector((state) => state.pizza);
 	
-	const {searchValue} = React.useContext(SearchContext);
+	const searchValue = useSelector(state => state.filter.searchValue);
 	
 	const onChangePage = (number) => {
 		dispatch(setCurrentPage(number));

@@ -2,13 +2,20 @@ import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {setSortType} from '../../redux/slices/filterSlice'
 
+import deskRatingIcon from '../../assets/img/arrow-rating-desk.svg'
+import askRatingIcon from '../../assets/img/arrow-rating-ask.svg'
+import deskPriceIcon from '../../assets/img/arrow-price-desk.svg'
+import askPriceIcon from '../../assets/img/arrow-price-ask.svg'
+import deskTitleIcon from '../../assets/img/arrow-title-desk.svg'
+import askTitleIcon from '../../assets/img/arrow-title-ask.svg'
+
 export const sortList = [
-	{name: 'популярности (desk)', sortProperty: 'rating',},
-	{name: 'популярности (ask)', sortProperty: '-rating',},
-	{name: 'цене (desk)', sortProperty: 'price'},
-	{name: 'цене (ask)', sortProperty: '-price'},
-	{name: 'алфавиту (desk)', sortProperty: 'title'},
-	{name: 'алфавиту (ask)', sortProperty: '-title'},
+	{name: 'популярности', sortProperty: 'rating', iconUrl: deskRatingIcon},
+	{name: 'популярности', sortProperty: '-rating', iconUrl: askRatingIcon},
+	{name: 'цене', sortProperty: 'price', iconUrl: deskPriceIcon},
+	{name: 'цене', sortProperty: '-price', iconUrl: askPriceIcon},
+	{name: 'алфавиту', sortProperty: 'title', iconUrl: deskTitleIcon},
+	{name: 'алфавиту', sortProperty: '-title', iconUrl: askTitleIcon},
 ]
 
 export const Sort = () => {
@@ -20,7 +27,7 @@ export const Sort = () => {
 	
 	React.useEffect(() => {
 		const handleClickOutside = (event) => {
-			if(!event.composedPath().includes(sortRef.current)) {
+			if (!event.composedPath().includes(sortRef.current)) {
 				setSortOpen(false)
 			}
 		}
@@ -43,6 +50,7 @@ export const Sort = () => {
 					</svg>
 					<b>Сортировка по:</b>
 					<span onClick={() => setSortOpen(!sortOpen)}>{sortType.name}</span>
+					<img className="icon" src={sortType.iconUrl} alt=""/>
 				</div>
 				
 				{
@@ -51,10 +59,13 @@ export const Sort = () => {
 							{sortList.map((obj, index) => (
 								<li
 									key={index}
-									className={sortType === obj.sortProperty ? 'active' : ''}
+									className={sortType.sortProperty === obj.sortProperty ? 'active sort__item' : 'sort__item'}
 									onClick={() => dispatch(setSortType(obj))}
 								>
 									{obj.name}
+									{
+										<img className="icon" src={obj.iconUrl} alt="filter icon"/>
+									}
 								</li>
 							))}
 						</ul>
