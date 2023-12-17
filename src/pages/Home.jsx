@@ -58,7 +58,7 @@ const Home = () => {
 			}))
 			isSearch.current = true
 		}
-	}, [])
+	}, [dispatch])
 	
 	// Если был первый ренден, то парсим параметры фильтрации из запроса в строку и передаем в URL
 	useEffect(() => {
@@ -70,7 +70,7 @@ const Home = () => {
 			navigate(`?${queryString}`)
 		}
 		isMounted.current = true
-	}, [categoryId, sort, searchValue, currentPage]);
+	}, [categoryId, sort, searchValue, currentPage, navigate]);
 	
 	// получаем данные с API
 	useEffect(() => {
@@ -79,7 +79,7 @@ const Home = () => {
 		}
 		
 		isSearch.current = false
-	}, [categoryId, sort, searchValue, currentPage]);
+	}, [categoryId, sort, searchValue, currentPage, getPizzas]);
 	
 	
 	const pizzaSkeletons = Array.from({length: 4}).map((_, index) => (<PizzaBlockSkeleton key={index}/>));

@@ -11,11 +11,12 @@ const Search = () => {
 	const [localValue, setLocalValue] = React.useState('')
 	const inputRef = React.useRef()
 	
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const updateSearchValue = React.useCallback(
 		debounce((str) => {
 			dispatch(setSearchValue(str))
 		}, 300),
-		[]
+		[dispatch, setSearchValue]
 	);
 	
 	const onChangeInput = (event) => {
