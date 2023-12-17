@@ -28,22 +28,50 @@ export const basketSlice = createSlice({
 		},
 		
 		removeItem: (state, action) => {
-			state.items = state.items.filter(obj => !(obj.id === action.payload.id && obj.type === action.payload.type && obj.size === action.payload.size));
-			state.totalPrice = 0
+			const indexToRemove = state.items.findIndex(
+				(obj) =>
+					obj.id === action.payload.id &&
+					obj.type === action.payload.type &&
+					obj.size === action.payload.size
+			);
+			
+			if (indexToRemove !== -1) {
+				const removedItem = state.items[indexToRemove];
+				state.totalPrice -= removedItem.price * removedItem.count;
+				state.items.splice(indexToRemove, 1);
+			}
 		},
 		
-		itemMinus:
-			(state, action) => {
-				const findItem = state.items.find(obj => obj.id === action.payload.id && obj.type === action.payload.type && obj.size === action.payload.size);
-				
+		itemMinus: (state, action) => {
+			const findItem = state.items.find(
+				(obj) =>
+					obj.id === action.payload.id &&
+					obj.type === action.payload.type &&
+					obj.size === action.payload.size
+			);
+			
+			if (findItem) {
 				if (findItem.count > 1) {
-					findItem.count--
+					findItem.count--;
 					state.totalPrice -= findItem.price;
 				} else {
-					state.items = state.items.filter(obj => !(obj.id === action.payload.id && obj.type === action.payload.type && obj.size === action.payload.size));
-					state.totalPrice = 0
+					const indexToRemove = state.items.findIndex(
+						(obj) =>
+							obj.id === action.payload.id &&
+							obj.type === action.payload.type &&
+							obj.size === action.payload.size
+					);
+					
+					if (indexToRemove !== -1) {
+						state.items.splice(indexToRemove, 1);
+						state.totalPrice = state.items.reduce(
+							(sum, obj) => obj.price * obj.count + sum,
+							0
+						);
+					}
 				}
-			},
+			}
+		},
 		
 		clearItems:
 			(state) => {
