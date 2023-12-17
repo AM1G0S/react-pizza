@@ -26,7 +26,7 @@ const Home = () => {
 		dispatch(setCurrentPage(number));
 	}
 	
-	const getPizzas = async () => {
+	const getPizzas = React.useCallback(async () => {
 		const category = categoryId > 0 ? `category=${categoryId}` : "";
 		const search = searchValue ? `&search=${searchValue}` : "";
 		const sortBy = sort.sortProperty.replace("-", "");
@@ -44,7 +44,8 @@ const Home = () => {
 		} catch (error) {
 			console.error("Ошибка при получении пицц:", error);
 		}
-	}
+	}, [categoryId, searchValue, sort.sortProperty, dispatch, currentPage]);
+
 	
 	// Если был первый ренден, то получаем параметры из URL и сохраняем их в стейте Redux
 	React.useEffect(() => {
