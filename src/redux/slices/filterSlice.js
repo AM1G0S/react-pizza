@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 
+import deskRatingIcon from '../../assets/img/arrow-rating-desk.svg'
 
 const initialState = {
 	categoryId: 0,
@@ -8,7 +9,7 @@ const initialState = {
 	sort: {
 		name: "популярности",
 		sortProperty: "rating",
-		iconUrl: '../../assets/img/arrow-rating-desk.svg'
+		iconUrl: deskRatingIcon
 	}
 }
 
