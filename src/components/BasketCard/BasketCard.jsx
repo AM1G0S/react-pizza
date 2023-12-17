@@ -7,15 +7,15 @@ const BasketCard = ({id, imageUrl, title, price, size, type, count}) => {
 	const dispatch = useDispatch()
 	
 	const onClickPlus = () => {
-		dispatch(addItem({id}))
+		dispatch(addItem({id, type, size}))
 	}
 	
 	const onClickMinus = () => {
-		dispatch(itemMinus({id}))
+		dispatch(itemMinus({id, type, size}))
 	}
 	
 	const onClickRemove = () => {
-		dispatch(removeItem({id}))
+		dispatch(removeItem({id, type, size}))
 	}
 	
 	return (

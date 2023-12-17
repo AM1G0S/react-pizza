@@ -10,7 +10,7 @@ export const PizzaBlock = ({imageUrl, title, price, sizes, types, id}) => {
 	
 	const [activeType, setActiveType] = React.useState(0);
 	const [activeSize, setActiveSize] = React.useState(0);
-	const cartItem = useSelector(state => state.basket.items.find(obj => obj.id === id))
+	const cartItem = useSelector(state => state.basket.items.find(obj => obj.id === id && obj.size === sizes[activeSize] && obj.type === pizzaTypes[activeType]))
 	const addedCount = cartItem ? cartItem.count : 0
 	
 	const onClickAdd = () => {

@@ -58,7 +58,7 @@ const Basket = () => {
 			<div className="content__items">
 				{
 					items.map((item) => {
-							return <BasketCard {...item} key={item.id}/>
+							return <BasketCard {...item} key={item.id + item.type + item.size}/>
 						}
 					)}
 			</div>
