@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -6,7 +6,7 @@ import {addItem} from "../../redux/slices/basketSlice";
 
 const pizzaTypes = ['тонкое', 'традиционное']
 
-type PizzaBlockProps = {
+type Props = {
 	imageUrl: string;
 	title: string;
 	price: number;
@@ -15,7 +15,7 @@ type PizzaBlockProps = {
 	id: string;
 }
 
-export const PizzaBlock: React.FC<PizzaBlockProps> = ({imageUrl, title, price, sizes, types, id}) => {
+export const PizzaBlock: FC<Props> = ({imageUrl, title, price, sizes, types, id}) => {
 	const dispatch = useDispatch()
 	
 	const [activeType, setActiveType] = React.useState(0);
@@ -31,7 +31,8 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({imageUrl, title, price, s
 			price,
 			size: sizes[activeSize],
 			type: pizzaTypes[activeType],
-			id
+			id,
+			count: 1,
 		}))
 	}
 	

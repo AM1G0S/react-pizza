@@ -1,34 +1,34 @@
-import React, {useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import qs from 'qs';
-import {useNavigate} from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
 
-import {Categories} from "../components/Categories/Categories";
-import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
-import {PizzaBlockSkeleton} from "../components/PizzaBlock/Skeleton";
-import {Sort, sortList} from "../components/Sort/Sort";
-import {Pagination} from "../components/Pagination/Pagination";
+import { Categories } from "../components/Categories/Categories";
+import { PizzaBlock } from "../components/PizzaBlock/PizzaBlock";
+import { PizzaBlockSkeleton } from "../components/PizzaBlock/Skeleton";
+import { Sort, sortList } from "../components/Sort/Sort";
+import { Pagination } from "../components/Pagination/Pagination";
 
-import {setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchPizzas} from "../redux/slices/pizzaSlice";
+import { setCurrentPage, setFilters } from "../redux/slices/filterSlice";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import {AppDispatch, RootState} from "../redux/store";
+import {Pizza} from "../types";
+
 
 const Home: React.FC = () => {
-	const navigate = useNavigate()
-	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 	
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 	
-	// @ts-ignore
-	const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
-	// @ts-ignore
-	const {items, status} = useSelector((state) => state.pizza);
-	// @ts-ignore
-	const searchValue: string = useSelector(state => state.filter.searchValue);
+	const { categoryId, sort, currentPage } = useSelector((state: RootState) => state.filter);
+	const { items, status } = useSelector((state: RootState) => state.pizza);
+	const searchValue = useSelector((state: RootState) => state.filter.searchValue);
 	
 	const onChangePage = (number: number) => {
 		dispatch(setCurrentPage(number));
-	}
+	};
 	
 	const getPizzas = React.useCallback(async () => {
 		const category = categoryId > 0 ? `category=${categoryId}` : "";
@@ -36,46 +36,46 @@ const Home: React.FC = () => {
 		const sortBy = sort.sortProperty.replace("-", "");
 		const order = sort.sortProperty.includes("-") ? "asc" : "desc";
 		try {
-			// @ts-ignore
-			await dispatch(fetchPizzas({
-				category,
-				search,
-				sortBy,
-				order,
-				currentPage
-			}));
+			await dispatch(fetchPizzas({ category, search, sortBy, order, currentPage }));
 			
 			window.scrollTo(0, 0);
 		} catch (error) {
 			console.error("Ошибка при получении пицц:", error);
 		}
 	}, [categoryId, searchValue, sort.sortProperty, dispatch, currentPage]);
-
 	
-	// Если был первый ренден, то получаем параметры из URL и сохраняем их в стейте Redux
+	// Если был первый рендер, то получаем параметры из URL и сохраняем их в стейте Redux
 	React.useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(window.location.search.substring(1))
+			const params = qs.parse(window.location.search.substring(1)) as {
+				categoryId?: string;
+				currentPage?: string;
+				sortProperty?: string;
+			};
 			
-			dispatch(setFilters({
-				categoryId: Number(params.categoryId) || 0,
-				currentPage: Number(params.currentPage) || 1,
-				sort: sortList.find((obj) => obj.sortProperty === params.sortProperty) || sortList[0],
-			}))
-			isSearch.current = true
+			dispatch(
+				setFilters({
+					categoryId: Number(params.categoryId) || 0,
+					currentPage: Number(params.currentPage) || 1,
+					sort: sortList.find((obj) => obj.sortProperty === params.sortProperty) || sortList[0],
+				})
+			);
+			isSearch.current = true;
 		}
-	}, [dispatch])
+	}, [dispatch]);
 	
-	// Если был первый ренден, то парсим параметры фильтрации из запроса в строку и передаем в URL
+	// Если был первый рендер, то парсим параметры фильтрации из запроса в строку и передаем в URL
 	useEffect(() => {
 		if (isMounted.current) {
 			const queryString = qs.stringify({
-				sortProperty: sort.sortProperty, categoryId, currentPage
-			})
+				sortProperty: sort.sortProperty,
+				categoryId,
+				currentPage,
+			});
 			
-			navigate(`?${queryString}`)
+			navigate(`?${queryString}`);
 		}
-		isMounted.current = true
+		isMounted.current = true;
 	}, [categoryId, sort, searchValue, currentPage, navigate]);
 	
 	// получаем данные с API
@@ -84,41 +84,43 @@ const Home: React.FC = () => {
 			getPizzas();
 		}
 		
-		isSearch.current = false
+		isSearch.current = false;
 	}, [categoryId, sort, searchValue, currentPage, getPizzas]);
 	
+	const pizzaSkeletons = Array.from({ length: 4 }).map((_, index) => (
+		<PizzaBlockSkeleton key={index} />
+	));
+	const pizzas = items.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 	
-	const pizzaSkeletons = Array.from({length: 4}).map((_, index) => (<PizzaBlockSkeleton key={index}/>));
-	const pizzas = items.map((item: any) => <PizzaBlock key={item.id} {...item} />);
-	
-	return (<>
-		<div className="content__top">
-			<Categories/>
-			<Sort/>
-		</div>
-		
-		{
-			status === "error" ? (
+	return (
+		<>
+			<div className="content__top">
+				<Categories />
+				<Sort />
+			</div>
+			
+			{status === "error" ? (
 				<div className="content__error">
 					<h2>К сожалению, не удалось загрузить пиццы 😕</h2>
-					<p>
-						Попробуйте еще раз, или перезагрузите страницу.
-					</p>
+					<p>Попробуйте еще раз, или перезагрузите страницу.</p>
 				</div>
 			) : (
 				<>
 					<h2 className="content__title">Все пиццы</h2>
 					<div className="content__items">
-						{status === "loading" ? pizzaSkeletons : items.length > 0 ? pizzas : (
+						{status === "loading" ? (
+							pizzaSkeletons
+						) : items.length > 0 ? (
+							pizzas
+						) : (
 							<h3 className="content__subtitle_empty">Ничего не найдено 😕</h3>
 						)}
 					</div>
-					<Pagination onChangePage={onChangePage}/>
+					<Pagination onChangePage={onChangePage} />
 				</>
-			)
-		}
-	
-	</>);
+			)}
+		</>
+	);
 };
 
 export default Home;

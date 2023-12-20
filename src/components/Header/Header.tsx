@@ -1,13 +1,13 @@
-import React from "react";
+import React, {FC} from "react";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 import Search from "../Search/Search";
 import logoSvg from "../../assets/img/pizza-logo.svg";
 
-export const Header: React.FC = () => {
-  // @ts-ignore
-  const {items, totalPrice} = useSelector(state => state.basket)
+export const Header: FC = () => {
+  const {items, totalPrice} = useSelector((state: RootState) => state.basket)
   
   const totalCount: number = items.reduce((sum: number, item: any) => sum + item.count, 0)
   

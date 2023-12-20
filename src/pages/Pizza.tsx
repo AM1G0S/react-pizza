@@ -1,49 +1,48 @@
 import axios from "axios";
-import React from "react";
-import {useParams} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+interface PizzaData {
+	imageUrl: string;
+	title: string;
+	description: string;
+	price: number;
+	type: string;
+}
 
 const Pizza: React.FC = () => {
-	const params = useParams<{id: string}>();
-	const navigate = useNavigate()
-	const pizzaID = params.id
+	const params = useParams<{ id: string }>();
+	const navigate = useNavigate();
+	const pizzaID = params.id;
 	
-	const [pizza, setPizza] = React.useState<{
-		imageUrl: string,
-		title: string,
-		description: string,
-		price: number,
-		type: string
-	}>()
+	const [pizza, setPizza] = useState<PizzaData | null>(null);
 	
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchPizzas = async () => {
 			try {
-				const {data} = await axios.get('https://65787cc6f08799dc80456b95.mockapi.io/items/' + pizzaID)
-				setPizza(data)
+				const { data } = await axios.get<PizzaData>('https://65787cc6f08799dc80456b95.mockapi.io/items/' + pizzaID);
+				setPizza(data);
 			} catch (error) {
-				alert('Такой пиццы у нас нет!')
-				navigate('/')
+				alert('Такой пиццы у нас нет!');
+				navigate('/');
 			}
-		}
-		fetchPizzas()
-	}, [navigate, pizzaID])
+		};
+		fetchPizzas();
+	}, [navigate, pizzaID]);
 	
 	if (!pizza) {
-		return <>Загрузка...</>
+		return <>Загрузка...</>;
 	}
 	
 	return (
 		<div>
-			<img src={pizza.imageUrl} alt=""/>
+			<img src={pizza.imageUrl} alt="" />
 			<h2>{pizza.title}</h2>
 			<p>{pizza.description}</p>
 			<h3>{pizza.price}</h3>
 			{pizza.type}
 		</div>
-	)
-}
+	);
+};
 
-export default Pizza
-
-
+export default Pizza;
