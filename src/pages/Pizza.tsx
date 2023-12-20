@@ -3,12 +3,18 @@ import React from "react";
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
-const Pizza = () => {
-	const params = useParams();
+const Pizza: React.FC = () => {
+	const params = useParams<{id: string}>();
 	const navigate = useNavigate()
 	const pizzaID = params.id
 	
-	const [pizza, setPizza] = React.useState([])
+	const [pizza, setPizza] = React.useState<{
+		imageUrl: string,
+		title: string,
+		description: string,
+		price: number,
+		type: string
+	}>()
 	
 	React.useEffect(() => {
 		const fetchPizzas = async () => {
@@ -22,6 +28,10 @@ const Pizza = () => {
 		}
 		fetchPizzas()
 	}, [navigate, pizzaID])
+	
+	if (!pizza) {
+		return <>Загрузка...</>
+	}
 	
 	return (
 		<div>

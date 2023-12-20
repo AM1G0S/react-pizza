@@ -6,11 +6,21 @@ import {addItem} from "../../redux/slices/basketSlice";
 
 const pizzaTypes = ['тонкое', 'традиционное']
 
-export const PizzaBlock = ({imageUrl, title, price, sizes, types, id}) => {
+type PizzaBlockProps = {
+	imageUrl: string;
+	title: string;
+	price: number;
+	sizes: number[];
+	types: number[];
+	id: string;
+}
+
+export const PizzaBlock: React.FC<PizzaBlockProps> = ({imageUrl, title, price, sizes, types, id}) => {
 	const dispatch = useDispatch()
 	
 	const [activeType, setActiveType] = React.useState(0);
 	const [activeSize, setActiveSize] = React.useState(0);
+	// @ts-ignore
 	const cartItem = useSelector(state => state.basket.items.find(obj => obj.id === id && obj.size === sizes[activeSize] && obj.type === pizzaTypes[activeType]))
 	const addedCount = cartItem ? cartItem.count : 0
 	
@@ -27,13 +37,13 @@ export const PizzaBlock = ({imageUrl, title, price, sizes, types, id}) => {
 	
 	return (
 		<div className='pizza-block'>
-			<Link to={'pizza/' + id}>
+			<Link to={'pizza/' + id} className='pizza-block__title'>
 				<img
 					className='pizza-block__image'
 					src={imageUrl}
 					alt='Pizza'
 				/>
-				<h4 className='pizza-block__title'>{title}</h4>
+				<h4>{title}</h4>
 			</Link>
 			<div className='pizza-block__selector'>
 				<ul>

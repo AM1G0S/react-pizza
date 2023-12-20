@@ -4,13 +4,15 @@ import {Link} from "react-router-dom";
 
 import BasketCard from "../components/BasketCard/BasketCard";
 import BasketEmpty from "../components/BasketEmpty/BasketEmpty";
+
 import {clearItems} from "../redux/slices/basketSlice";
 
 const Basket = () => {
 	const dispatch = useDispatch()
+	// @ts-ignore
 	const {items, totalPrice} = useSelector(state => state.basket)
 	
-	const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+	const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
 	
 	const onClickRemove = () => {
 		dispatch(clearItems())
@@ -57,7 +59,7 @@ const Basket = () => {
 			</div>
 			<div className="content__items">
 				{
-					items.map((item) => {
+					items.map((item: any) => {
 							return <BasketCard {...item} key={item.id + item.type + item.size}/>
 						}
 					)}

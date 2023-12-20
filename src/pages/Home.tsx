@@ -8,21 +8,25 @@ import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {PizzaBlockSkeleton} from "../components/PizzaBlock/Skeleton";
 import {Sort, sortList} from "../components/Sort/Sort";
 import {Pagination} from "../components/Pagination/Pagination";
+
 import {setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import {fetchPizzas} from "../redux/slices/pizzaSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch();
+	
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 	
+	// @ts-ignore
 	const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
+	// @ts-ignore
 	const {items, status} = useSelector((state) => state.pizza);
+	// @ts-ignore
+	const searchValue: string = useSelector(state => state.filter.searchValue);
 	
-	const searchValue = useSelector(state => state.filter.searchValue);
-	
-	const onChangePage = (number) => {
+	const onChangePage = (number: number) => {
 		dispatch(setCurrentPage(number));
 	}
 	
@@ -32,6 +36,7 @@ const Home = () => {
 		const sortBy = sort.sortProperty.replace("-", "");
 		const order = sort.sortProperty.includes("-") ? "asc" : "desc";
 		try {
+			// @ts-ignore
 			await dispatch(fetchPizzas({
 				category,
 				search,
@@ -84,7 +89,7 @@ const Home = () => {
 	
 	
 	const pizzaSkeletons = Array.from({length: 4}).map((_, index) => (<PizzaBlockSkeleton key={index}/>));
-	const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
+	const pizzas = items.map((item: any) => <PizzaBlock key={item.id} {...item} />);
 	
 	return (<>
 		<div className="content__top">

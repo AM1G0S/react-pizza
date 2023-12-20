@@ -5,10 +5,11 @@ import {useSelector} from "react-redux";
 import Search from "../Search/Search";
 import logoSvg from "../../assets/img/pizza-logo.svg";
 
-export const Header = () => {
+export const Header: React.FC = () => {
+  // @ts-ignore
   const {items, totalPrice} = useSelector(state => state.basket)
   
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+  const totalCount: number = items.reduce((sum: number, item: any) => sum + item.count, 0)
   
   return (
     <div className="header">

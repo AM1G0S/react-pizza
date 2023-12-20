@@ -9,7 +9,13 @@ import askPriceIcon from '../../assets/img/arrow-price-ask.svg'
 import deskTitleIcon from '../../assets/img/arrow-title-desk.svg'
 import askTitleIcon from '../../assets/img/arrow-title-ask.svg'
 
-export const sortList = [
+type SortItem = {
+	name: string;
+	sortProperty: string;
+	iconUrl: string;
+}
+
+export const sortList: SortItem[] = [
 	{name: 'популярности', sortProperty: 'rating', iconUrl: deskRatingIcon},
 	{name: 'популярности', sortProperty: '-rating', iconUrl: askRatingIcon},
 	{name: 'цене', sortProperty: 'price', iconUrl: deskPriceIcon},
@@ -18,16 +24,20 @@ export const sortList = [
 	{name: 'алфавиту', sortProperty: '-title', iconUrl: askTitleIcon},
 ]
 
-export const Sort = () => {
+export const Sort: React.FC = () => {
+	// @ts-ignore
 	const sortType = useSelector((state) => state.filter.sort)
 	const dispatch = useDispatch()
 	
 	const [sortOpen, setSortOpen] = React.useState(false)
-	const sortRef = React.useRef()
+	const sortRef = React.useRef<HTMLDivElement>(null)
 	
 	React.useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (!event.composedPath().includes(sortRef.current)) {
+		const handleClickOutside = (event: MouseEvent) => {
+			const _event = event as MouseEvent & {
+				composedPath: () => Node[]
+			}
+			if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
 				setSortOpen(false)
 			}
 		}

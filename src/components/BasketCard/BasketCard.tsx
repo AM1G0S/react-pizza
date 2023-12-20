@@ -3,7 +3,17 @@ import {useDispatch} from "react-redux";
 
 import {addItem, itemMinus, removeItem} from "../../redux/slices/basketSlice";
 
-const BasketCard = ({id, imageUrl, title, price, size, type, count}) => {
+type BasketProps = {
+	id: string;
+	imageUrl: string;
+	title: string;
+	price: number;
+	size: number;
+	type: string;
+	count: number;
+}
+
+const BasketCard: React.FC<BasketProps> = ({id, imageUrl, title, price, size, type, count}) => {
 	const dispatch = useDispatch()
 	
 	const onClickPlus = () => {
