@@ -13,7 +13,7 @@ type Props = {
 	count: number;
 }
 
-const BasketCard: FC<Props> = ({id, imageUrl, title, price, size, type, count}) => {
+export const BasketCard: FC<Props> = ({id, imageUrl, title, price, size, type, count}) => {
 	const dispatch = useDispatch()
 	
 	const onClickPlus = () => {
@@ -81,5 +81,3 @@ const BasketCard: FC<Props> = ({id, imageUrl, title, price, size, type, count}) 
 		</div>
 	)
 }
-
-export default BasketCard

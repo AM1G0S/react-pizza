@@ -1,11 +1,13 @@
 import React, {FC} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import BasketCard from "../components/BasketCard/BasketCard";
-import BasketEmpty from "../components/BasketEmpty/BasketEmpty";
+
+import {BasketCard, BasketEmpty} from "../components";
+
 import { clearItems } from "../redux/slices/basketSlice";
 import { RootState } from "../redux/store";
-import { BasketItem } from "../types"; // Предположим, что у вас есть тип BasketItem
+
+import { BasketItem } from "../types";
 
 const Basket: FC = () => {
 	const dispatch = useDispatch();

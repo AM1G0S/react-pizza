@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 
-import Search from "../Search/Search";
+import {Search} from "../Search/Search";
 import logoSvg from "../../assets/img/pizza-logo.svg";
 
 export const Header: FC = () => {
