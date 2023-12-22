@@ -1,7 +1,7 @@
 # REACT PIZZA | SPA - PET PROJECT
 
 <p align="center">
-  <img src="src/assets/img/preview.png" alt="site preview" width="800" height="400">
+  <img src="src/assets/img/preview.png" alt="site preview" width="900" height="500">
 </p>
 
 ## 📝 Полный стек:
